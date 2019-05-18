@@ -45,10 +45,10 @@ def load_image(path):
 @click.command()
 @click.argument('images', nargs=-1, type=click.Path(exists=True))
 @click.option('--output', '-o', type=click.Path())
-@click.option('--mask-width', type=float, default=0.8)
-@click.option('--blend-width', type=float, default=0.2)
-@click.option('--blend-cap', type=float, default=0.1)
-@click.option('--target-gamma', type=float, default=2.2)
+@click.option('--mask-width', type=float)
+@click.option('--blend-width', type=float)
+@click.option('--blend-cap', type=float)
+@click.option('--target-gamma', type=float)
 @click.option('--version',
               '-v',
               is_flag=True,

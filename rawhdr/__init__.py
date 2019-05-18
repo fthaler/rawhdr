@@ -6,7 +6,7 @@ import numpy as np
 __version__ = '0.2.0'
 
 
-def compute_scaling(image, base_image, *, mask_width=0.8, target_gamma=2.2):
+def compute_scaling(image, base_image, *, mask_width=None, target_gamma=None):
     """Exposure scaling computation.
 
     Computes the scaling required for `image` such that its
@@ -37,14 +37,21 @@ def compute_scaling(image, base_image, *, mask_width=0.8, target_gamma=2.2):
         Scaling factor such that `scaling` * `image` is approximately
         equal to `base_image`.
     """
-    base_image = np.asarray(base_image)
-    image = np.asarray(image)
+    if mask_width is None:
+        mask_width = 0.8
+    if target_gamma is None:
+        target_gamma = 2.2
 
     if mask_width <= 0 or mask_width > 1:
         raise ValueError('Maske width must be positive and at most 1.0')
+    if target_gamma <= 0:
+        raise ValueError('Invalid value for `target_gamma`. Must be positive')
 
     if base_image is image:
         return 1.0
+
+    base_image = np.asarray(base_image)
+    image = np.asarray(image)
 
     # Compute mask where all image data is in reasonable sensor range
     mask_min = 0.5 - 0.5 * mask_width
@@ -68,9 +75,9 @@ def compute_weight(image,
                    *,
                    blend_low=True,
                    blend_high=True,
-                   blend_width=0.2,
-                   blend_cap=0.1,
-                   target_gamma=2.2):
+                   blend_width=None,
+                   blend_cap=None,
+                   target_gamma=None):
     """Compute per-pixel blending weights.
 
     Parameters
@@ -93,6 +100,25 @@ def compute_weight(image,
     mask : array_like
         Mask with the same shape as `image`.
     """
+    if blend_width is None:
+        blend_width = 0.2
+    if blend_cap is None:
+        blend_cap = 0.1
+    if target_gamma is None:
+        target_gamma = 2.2
+
+    if not 0 <= blend_width <= 0.5:
+        raise ValueError(
+            'Invalid value for `blend_width`. Must be in range [0, 0.5]')
+    if not 0 <= blend_cap <= 0.5:
+        raise ValueError(
+            'Invalid value for `blend_cap`. Must be in range [0, 0.5]')
+    if blend_width + blend_cap > 0.5:
+        raise ValueError('Invalid value for `blend_width` + `blend_cap`.'
+                         'Sum must be less than 0.5')
+    if target_gamma <= 0:
+        raise ValueError('Invalid value for `target_gamma`. Must be positive')
+
     image_gammac = image**(1.0 / target_gamma)
     mask = np.ones_like(image)
     if blend_low:
@@ -110,10 +136,10 @@ def compute_weight(image,
 
 
 def merge_exposures(exposures,
-                    mask_width=0.8,
-                    blend_width=0.2,
-                    blend_cap=0.1,
-                    target_gamma=2.2):
+                    mask_width=None,
+                    blend_width=None,
+                    blend_cap=None,
+                    target_gamma=None):
     """Merge multiple LDR images into a HDR image.
 
     Parameters
@@ -135,11 +161,6 @@ def merge_exposures(exposures,
         Merged HDR image width same exposure as the first image in the
         `exposures` input list.
     """
-    if blend_width is None:
-        blend_width = 1 - mask_width
-    if blend_width <= 0 or blend_width > 0.5:
-        raise ValueError('Invalid blend width, must be in range [0, 0.5]')
-
     scalings = [
         compute_scaling(exposure,
                         base_image=exposures[0],
