@@ -6,17 +6,22 @@ import re
 import setuptools
 
 
+def read_file(*path):
+    """Read file content."""
+    package_path = os.path.abspath(os.path.dirname(__file__))
+    with open(os.path.join(package_path, *path), 'r') as text_file:
+        return text_file.read()
+
+
 def long_description():
     """Read long description from README.md."""
-    with open('README.md', 'r') as readme_file:
-        return readme_file.read()
+    return read_file('README.md')
 
 
 def version():
     """Parse version info."""
-    with open(os.path.join('rawhdr', '__init__.py'), 'r') as init_file:
-        content = init_file.read()
-    match = re.search(r"__version__ = [']([^']*)[']", content, re.MULTILINE)
+    initfile_content = read_file('rawhdr', '__init__.py')
+    match = re.search(r"__version__ = [']([^']*)[']", initfile_content, re.M)
     if match:
         return match.group(1)
     raise RuntimeError('Unable to find version string')
