@@ -37,8 +37,7 @@ def load_image(path):
         rgb = raw.postprocess(gamma=(1, 1),
                               no_auto_bright=True,
                               use_camera_wb=True,
-                              output_bps=16,
-                              half_size=True)
+                              output_bps=16)
     return rgb.astype('float32') / 2**16
 
 
