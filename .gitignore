@@ -1,0 +1,8 @@
+.*
+build/
+dist/
+tags
+*.egg-info
+*.swp
+__pycache__
+!.gitignore
