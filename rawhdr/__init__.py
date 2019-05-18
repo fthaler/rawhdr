@@ -65,7 +65,7 @@ def compute_scaling(image, base_image, *, mask_width=None, target_gamma=None):
 
     if np.sum(mask) == 0:
         raise RuntimeError('No values to match exposure, '
-                           'try increasing the mask width')
+                           'try increasing `mask_width`')
 
     # Compute scaling of `image` image to match exposure of `base_image`
     return np.mean(base_image[mask] / image[mask])
@@ -119,14 +119,17 @@ def compute_weight(image,
     if target_gamma <= 0:
         raise ValueError('Invalid value for `target_gamma`. Must be positive')
 
+    # gamma-corrected image
     image_gammac = image**(1.0 / target_gamma)
     mask = np.ones_like(image)
     if blend_low:
+        # blend out dark pixels
         mask = np.minimum(np.clip((image_gammac - blend_cap) / blend_width, 0,
                                   1),
                           mask,
                           out=mask)
     if blend_high:
+        # blend out bright pixels
         mask = np.minimum(np.clip((1 - image_gammac - blend_cap) / blend_width,
                                   0, 1),
                           mask,
@@ -161,6 +164,7 @@ def merge_exposures(exposures,
         Merged HDR image width same exposure as the first image in the
         `exposures` input list.
     """
+    # blend scalings of all images to match first image exposure
     scalings = [
         compute_scaling(exposure,
                         base_image=exposures[0],
@@ -169,6 +173,7 @@ def merge_exposures(exposures,
     ]
     min_scaling, max_scaling = min(scalings), max(scalings)
 
+    # compute blending weights
     weights = [
         compute_weight(exposure,
                        blend_low=(scaling != min_scaling),
@@ -179,10 +184,12 @@ def merge_exposures(exposures,
         for exposure, scaling in zip(exposures, scalings)
     ]
 
+    # normalize blending weights
     total_weight = sum(weights)
     for weight in weights:
         weight /= total_weight
 
+    # blend scaled images by weight
     return sum(
         exposure * scaling * weight
         for exposure, scaling, weight in zip(exposures, scalings, weights))
