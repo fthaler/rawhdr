@@ -2,6 +2,7 @@
 build/
 dist/
 tags
+docs/_build/
 *.egg-info
 *.swp
 __pycache__
