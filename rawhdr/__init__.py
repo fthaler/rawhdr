@@ -164,6 +164,10 @@ def merge_exposures(exposures,
         Merged HDR image width same exposure as the first image in the
         `exposures` input list.
     """
+    exposures = list(exposures)
+    if not exposures:
+        raise ValueError('At least one input image is required')
+
     # blend scalings of all images to match first image exposure
     scalings = [
         compute_scaling(exposure,
