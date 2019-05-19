@@ -15,7 +15,7 @@ def print_version(ctx, _, value):
     """Print version information."""
     if not value or ctx.resilient_parsing:
         return
-    click.echo('rawHDR version ' + rawhdr.__version__ + '\n'
+    click.echo('rawhdrmerge version ' + rawhdr.__version__ + '\n'
                'Copyright (C) 2019 Felix Thaler')
     ctx.exit()
 
@@ -43,11 +43,20 @@ def load_image(path):
 
 @click.command()
 @click.argument('images', nargs=-1, type=click.Path(exists=True))
-@click.option('--output', '-o', type=click.Path())
-@click.option('--mask-width', type=float)
-@click.option('--blend-width', type=float)
-@click.option('--blend-cap', type=float)
-@click.option('--target-gamma', type=float)
+@click.option('--output',
+              '-o',
+              type=click.Path(),
+              help='File name of the output HDR image.')
+@click.option('--mask-width',
+              type=float,
+              help='Mask width option used for exposure scaling.')
+@click.option('--blend-width',
+              type=float,
+              help='Smoothness option used for blending.')
+@click.option('--blend-cap', type=float, help='Cap option used for blending.')
+@click.option('--target-gamma',
+              type=float,
+              help='Gamma correction used in internal computations.')
 @click.option('--version',
               '-v',
               is_flag=True,
@@ -55,7 +64,11 @@ def load_image(path):
               expose_value=False,
               is_eager=True)
 def cli(images, output, mask_width, blend_width, blend_cap, target_gamma):
-    """Main entry point."""
+    """Command-line utility for merging RAW images into a single HDR image.
+
+    All input images must be RAW images. The exposure of the first image is
+    taken as reference for the brightness of the resulting HDR image.
+    """
     if output is None:
         output = os.path.splitext(images[0])[0] + '-hdr.exr'
 
