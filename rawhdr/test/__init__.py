@@ -145,5 +145,6 @@ class TestMergeExposures(unittest.TestCase):
         self.assertTrue(np.all(np.isclose(image, result)))
 
     def test_argument_check(self):
+        """Test checking of function argument values."""
         with self.assertRaises(ValueError):
             rawhdr.merge_exposures([])
