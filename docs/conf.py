@@ -31,6 +31,11 @@ if match:
     release = match.group(1)
 else:
     raise RuntimeError('Unable to find version string')
+match = re.search('[0-9]+\.[0-9]+', release)
+if match:
+    version = match.group()
+else:
+    raise RuntimeError('Unable to parse version number')
 
 # -- General configuration ---------------------------------------------------
 
@@ -53,6 +58,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
+html_theme_options = {'collapse_navigation': False, 'display_version': True}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

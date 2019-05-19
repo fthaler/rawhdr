@@ -3,7 +3,7 @@
 
 import numpy as np
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
 
 def compute_scaling(image, base_image, *, mask_width=None, target_gamma=None):
