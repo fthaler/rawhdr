@@ -97,7 +97,7 @@ def compute_weight(image,
 
     Returns
     -------
-    mask : array_like
+    mask : numpy.ndarray
         Mask with the same shape as `image`.
     """
     if blend_width is None:
@@ -160,7 +160,7 @@ def merge_exposures(exposures,
 
     Returns
     -------
-    merged : ndarray
+    merged : numpy.ndarray
         Merged HDR image width same exposure as the first image in the
         `exposures` input list.
     """
