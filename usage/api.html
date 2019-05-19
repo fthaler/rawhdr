@@ -1,0 +1,298 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API &mdash; rawhdr 0.2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> rawhdr
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#main-function-for-exposure-merging">Main Function for Exposure Merging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#helper-functions-for-exposure-merging">Helper Functions for Exposure Merging</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">rawhdr</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/usage/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="main-function-for-exposure-merging">
+<h2>Main Function for Exposure Merging<a class="headerlink" href="#main-function-for-exposure-merging" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="rawhdr.merge_exposures">
+<code class="descclassname">rawhdr.</code><code class="descname">merge_exposures</code><span class="sig-paren">(</span><em>exposures</em>, <em>mask_width=None</em>, <em>blend_width=None</em>, <em>blend_cap=None</em>, <em>target_gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.merge_exposures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge multiple LDR images into a HDR image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>exposures</strong> (<em>iterable of array_like</em>) – Floating point input images in linear color space.</p></li>
+<li><p><strong>mask_width</strong> (<em>float</em>) – Size of the mask in gamma-corrected color space.</p></li>
+<li><p><strong>blend_width</strong> (<em>float</em>) – Width of the blended regions at both ends of the brightness range.</p></li>
+<li><p><strong>blend_cap</strong> (<em>float</em>) – Cap of dark and bright regions.</p></li>
+<li><p><strong>target_gamma</strong> (<em>float</em>) – Target gamma used for the masking computations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>merged</strong> – Merged HDR image width same exposure as the first image in the
+<cite>exposures</cite> input list.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="helper-functions-for-exposure-merging">
+<h2>Helper Functions for Exposure Merging<a class="headerlink" href="#helper-functions-for-exposure-merging" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="rawhdr.compute_scaling">
+<code class="descclassname">rawhdr.</code><code class="descname">compute_scaling</code><span class="sig-paren">(</span><em>image</em>, <em>base_image</em>, <em>*</em>, <em>mask_width=None</em>, <em>target_gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.compute_scaling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exposure scaling computation.</p>
+<p>Computes the scaling required for <cite>image</cite> such that its
+brightness/exposure is equal to <cite>base_image</cite>.</p>
+<p>Only the central part of the brightness distribution of both images is
+used to perform the calculation. Very bright (possibly saturated) and
+dark (possibly noisy) pixels are ignored.</p>
+<p>Masking of the center part can be controlled by <cite>mask_width</cite> and
+<cite>target_gamma</cite>, in most cases the default parameters should work
+reasonaly well.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>array_like</em>) – Image for which the scaling factor is computed.</p></li>
+<li><p><strong>base_image</strong> (<em>array_like</em>) – Image with reference brightness/exposure.</p></li>
+<li><p><strong>mask_width</strong> (<em>float</em>) – Size of the mask in gamma-corrected color space.</p></li>
+<li><p><strong>target_gamma</strong> (<em>float</em>) – Target gamma used for the masking computations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>scaling</strong> – Scaling factor such that <cite>scaling</cite> * <cite>image</cite> is approximately
+equal to <cite>base_image</cite>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rawhdr.compute_weight">
+<code class="descclassname">rawhdr.</code><code class="descname">compute_weight</code><span class="sig-paren">(</span><em>image</em>, <em>*</em>, <em>blend_low=True</em>, <em>blend_high=True</em>, <em>blend_width=None</em>, <em>blend_cap=None</em>, <em>target_gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.compute_weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute per-pixel blending weights.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>array_like</em>) – Image for which the blending weights are computed.</p></li>
+<li><p><strong>blend_low</strong> (<em>bool</em>) – Enables blending of the lower (dark) part of the image brightness.</p></li>
+<li><p><strong>blend_high</strong> (<em>bool</em>) – Enabled blending of the higher (dark) part of the image brightness.</p></li>
+<li><p><strong>blend_width</strong> (<em>float</em>) – Width of the blended regions at both ends of the brightness range.</p></li>
+<li><p><strong>blend_cap</strong> (<em>float</em>) – Cap of dark and bright regions.</p></li>
+<li><p><strong>target_gamma</strong> (<em>float</em>) – Gamma at which the blending is performed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>mask</strong> – Mask with the same shape as <cite>image</cite>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Felix Thaler
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
