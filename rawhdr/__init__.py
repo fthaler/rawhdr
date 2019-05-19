@@ -147,7 +147,7 @@ def merge_exposures(exposures,
 
     Parameters
     ----------
-    exposures : list of array_like
+    exposures : iterable of array_like
         Floating point input images in linear color space.
     mask_width : float
         Size of the mask in gamma-corrected color space.
