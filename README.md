@@ -4,7 +4,6 @@
 
 A simple HDR image merger that converts multiple RAW files into a single HDR image.
 
-
 ## Installation
 
 Installation via the [Python Package Index](https://pypi.org/):
