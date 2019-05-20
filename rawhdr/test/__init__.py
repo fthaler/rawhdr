@@ -144,6 +144,18 @@ class TestMergeExposures(unittest.TestCase):
         result = rawhdr.merge_exposures(images)
         self.assertTrue(np.all(np.isclose(image, result)))
 
+    def test_merging_without_weight_first(self):
+        """Test merging of LDR images with weight_first=False."""
+        # Generate HDR image
+        image = 2 * _generate_image()
+
+        # Generate clipped LDR images
+        scalings = [1, 0.4, 0.7, 1 / 0.7, 1 / 0.4]
+        images = [np.clip(image * scaling, 1e-3, 0.95) for scaling in scalings]
+
+        result = rawhdr.merge_exposures(images, weight_first=False)
+        self.assertTrue(np.all(np.isclose(image, result)))
+
     def test_argument_check(self):
         """Test checking of function argument values."""
         with self.assertRaises(ValueError):

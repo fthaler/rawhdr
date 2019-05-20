@@ -3,7 +3,7 @@
 
 import numpy as np
 
-__version__ = '0.2.4'
+__version__ = '0.3.0'
 
 
 def compute_scaling(image, base_image, mask_width=None, target_gamma=None):
@@ -141,7 +141,8 @@ def merge_exposures(exposures,
                     mask_width=None,
                     blend_width=None,
                     blend_cap=None,
-                    target_gamma=None):
+                    target_gamma=None,
+                    weight_first=True):
     """Merge multiple LDR images into a HDR image.
 
     Parameters
@@ -156,6 +157,10 @@ def merge_exposures(exposures,
         Cap of dark and bright regions.
     target_gamma : float
         Target gamma used for the masking computations.
+    weight_first : bool
+        If `False`, the first given image is treated specially and not blended
+        in dark and bright areas. Can be used if the first image is already an
+        HDR image.
 
     Returns
     -------
@@ -187,10 +192,18 @@ def merge_exposures(exposures,
         for exposure, scaling in zip(exposures, scalings)
     ]
 
+    # Disable weighting of first image if requested
+    if not weight_first:
+        weights[0][:] = 0
+
     # normalize blending weights
     total_weight = sum(weights) + 1e-8
     for weight in weights:
         weight /= total_weight
+
+    # Correct weight of first image if required
+    if not weight_first:
+        weights[0][:] = 1 - sum(weights[1:])
 
     # blend scaled images by weight
     return sum(
