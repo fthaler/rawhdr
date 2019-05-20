@@ -3,7 +3,7 @@
 
 import numpy as np
 
-__version__ = '0.2.3'
+__version__ = '0.2.4'
 
 
 def compute_scaling(image, base_image, mask_width=None, target_gamma=None):
@@ -188,7 +188,7 @@ def merge_exposures(exposures,
     ]
 
     # normalize blending weights
-    total_weight = sum(weights)
+    total_weight = sum(weights) + 1e-8
     for weight in weights:
         weight /= total_weight
 
