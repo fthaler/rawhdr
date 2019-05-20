@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>API &mdash; rawhdr 0.2.4 documentation</title>
+  <title>API &mdash; rawhdr 0.3.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.2
+                0.3
               </div>
             
           
@@ -167,7 +167,7 @@
 <h2>Main Function for Exposure Merging<a class="headerlink" href="#main-function-for-exposure-merging" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="rawhdr.merge_exposures">
-<code class="descclassname">rawhdr.</code><code class="descname">merge_exposures</code><span class="sig-paren">(</span><em>exposures</em>, <em>mask_width=None</em>, <em>blend_width=None</em>, <em>blend_cap=None</em>, <em>target_gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.merge_exposures" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">rawhdr.</code><code class="descname">merge_exposures</code><span class="sig-paren">(</span><em>exposures</em>, <em>mask_width=None</em>, <em>blend_width=None</em>, <em>blend_cap=None</em>, <em>target_gamma=None</em>, <em>weight_first=True</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.merge_exposures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Merge multiple LDR images into a HDR image.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -177,6 +177,9 @@
 <li><p><strong>blend_width</strong> (<em>float</em>) – Width of the blended regions at both ends of the brightness range.</p></li>
 <li><p><strong>blend_cap</strong> (<em>float</em>) – Cap of dark and bright regions.</p></li>
 <li><p><strong>target_gamma</strong> (<em>float</em>) – Target gamma used for the masking computations.</p></li>
+<li><p><strong>weight_first</strong> (<em>bool</em>) – If <cite>False</cite>, the first given image is treated specially and not blended
+in dark and bright areas. Can be used if the first image is already an
+HDR image.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

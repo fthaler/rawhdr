@@ -14,7 +14,8 @@ Install using pip:
 Usage
 -----
 
-Run `rawhdrmerge` from the command line. To merge three Nikon NEF files, run for example:
+Run `rawhdrmerge` from the command line.
+To merge three Nikon NEF files, run for example:
 
 .. code-block:: bash
 

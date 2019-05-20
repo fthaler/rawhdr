@@ -6,7 +6,8 @@
 Welcome to rawhdr's Documentation!
 ==================================
 
-Rawhdr is a simple HDR image merger that converts multiple RAW files into a single HDR image.
+Rawhdr is a simple HDR image merger that converts multiple RAW files into a
+single HDR image.
 
 .. toctree::
    :maxdepth: 2
