@@ -6,7 +6,7 @@ import numpy as np
 __version__ = '0.2.1'
 
 
-def compute_scaling(image, base_image, *, mask_width=None, target_gamma=None):
+def compute_scaling(image, base_image, mask_width=None, target_gamma=None):
     """Exposure scaling computation.
 
     Computes the scaling required for `image` such that its
@@ -72,7 +72,6 @@ def compute_scaling(image, base_image, *, mask_width=None, target_gamma=None):
 
 
 def compute_weight(image,
-                   *,
                    blend_low=True,
                    blend_high=True,
                    blend_width=None,
