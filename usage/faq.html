@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Quickstart &mdash; rawhdr 0.2.4 documentation</title>
+  <title>FAQ &mdash; rawhdr 0.2.4 documentation</title>
   
 
   
@@ -35,8 +35,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="API" href="api.html" />
-    <link rel="prev" title="Welcome to rawhdr’s Documentation!" href="../index.html" /> 
+    <link rel="prev" title="API" href="api.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -86,9 +85,9 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#usage">Usage</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
@@ -96,7 +95,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api.html#helper-functions-for-exposure-merging">Helper Functions for Exposure Merging</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FAQ</a></li>
 </ul>
 
             
@@ -142,13 +141,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Quickstart</li>
+      <li>FAQ</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/usage/quickstart.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/usage/faq.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -161,28 +160,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="quickstart">
-<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>Install using pip:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install rawhdr
-</pre></div>
-</div>
-</div>
-<div class="section" id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>Run <cite>rawhdrmerge</cite> from the command line. To merge three Nikon NEF files, run for example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rawhdrmerge --output result.exr base.NEF under-exposed.NEF over-exposed.NEF
-</pre></div>
-</div>
-<p>Any RAW file format known by the <a class="reference external" href="https://letmaik.github.io/rawpy/">rawpy</a> library is supported as input.
-Any HDR file format knwon by <a class="reference external" href="https://imageio.github.io/">imageio</a> is supported as output.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The exposure of the generated HDR image alway matches the first given RAW image.</p>
-</div>
-</div>
+  <div class="section" id="faq">
+<h1>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h1>
+<ul>
+<li><p>I get the error <code class="docutils literal notranslate"><span class="pre">ValueError:</span> <span class="pre">Could</span> <span class="pre">not</span> <span class="pre">find</span> <span class="pre">a</span> <span class="pre">format</span> <span class="pre">to</span> <span class="pre">write</span> <span class="pre">the</span> <span class="pre">specified</span> <span class="pre">file</span> <span class="pre">in</span> <span class="pre">mode</span> <span class="pre">'i'</span></code>.</p>
+<blockquote>
+<div><p>You probably need to install a library required by <cite>imageio</cite> to write to the desired format.
+We refer to the <a class="reference external" href="https://imageio.readthedocs.io/en/stable/">imageio documentation</a>.
+For OpenEXR, follow the instructions <a class="reference external" href="https://imageio.readthedocs.io/en/stable/format_exr-fi.html#exr-fi">here</a>.</p>
+</div></blockquote>
+</li>
+</ul>
 </div>
 
 
@@ -193,10 +181,8 @@ Any HDR file format knwon by <a class="reference external" href="https://imageio
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to rawhdr’s Documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral float-left" title="API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

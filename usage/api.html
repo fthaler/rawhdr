@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>API &mdash; rawhdr 0.2.0 documentation</title>
+  <title>API &mdash; rawhdr 0.2.4 documentation</title>
   
 
   
@@ -35,6 +35,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="FAQ" href="faq.html" />
     <link rel="prev" title="Quickstart" href="quickstart.html" /> 
 </head>
 
@@ -95,6 +96,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#helper-functions-for-exposure-merging">Helper Functions for Exposure Merging</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 </ul>
 
             
@@ -192,7 +194,7 @@
 <h2>Helper Functions for Exposure Merging<a class="headerlink" href="#helper-functions-for-exposure-merging" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="rawhdr.compute_scaling">
-<code class="descclassname">rawhdr.</code><code class="descname">compute_scaling</code><span class="sig-paren">(</span><em>image</em>, <em>base_image</em>, <em>*</em>, <em>mask_width=None</em>, <em>target_gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.compute_scaling" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">rawhdr.</code><code class="descname">compute_scaling</code><span class="sig-paren">(</span><em>image</em>, <em>base_image</em>, <em>mask_width=None</em>, <em>target_gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.compute_scaling" title="Permalink to this definition">¶</a></dt>
 <dd><p>Exposure scaling computation.</p>
 <p>Computes the scaling required for <cite>image</cite> such that its
 brightness/exposure is equal to <cite>base_image</cite>.</p>
@@ -223,7 +225,7 @@ equal to <cite>base_image</cite>.</p>
 
 <dl class="function">
 <dt id="rawhdr.compute_weight">
-<code class="descclassname">rawhdr.</code><code class="descname">compute_weight</code><span class="sig-paren">(</span><em>image</em>, <em>*</em>, <em>blend_low=True</em>, <em>blend_high=True</em>, <em>blend_width=None</em>, <em>blend_cap=None</em>, <em>target_gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.compute_weight" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">rawhdr.</code><code class="descname">compute_weight</code><span class="sig-paren">(</span><em>image</em>, <em>blend_low=True</em>, <em>blend_high=True</em>, <em>blend_width=None</em>, <em>blend_cap=None</em>, <em>target_gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.compute_weight" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute per-pixel blending weights.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -255,6 +257,8 @@ equal to <cite>base_image</cite>.</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="faq.html" class="btn btn-neutral float-right" title="FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
