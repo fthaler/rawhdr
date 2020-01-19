@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*_
 """Command line tool of rawhdr."""
 
@@ -68,8 +67,8 @@ def load_image(path):
               callback=print_version,
               expose_value=False,
               is_eager=True)
-def cli(images, output, save_memory, mask_width, blend_width, blend_cap,
-        target_gamma):
+def main(images, output, save_memory, mask_width, blend_width, blend_cap,
+         target_gamma):
     """Command-line utility for merging RAW images into a single HDR image.
 
     All input images must be RAW images. The exposure of the first image is
@@ -101,7 +100,3 @@ def cli(images, output, save_memory, mask_width, blend_width, blend_cap,
                                         target_gamma=target_gamma)
 
     imageio.imsave(output, merged.astype('float32'))
-
-
-if __name__ == '__main__':
-    cli()
