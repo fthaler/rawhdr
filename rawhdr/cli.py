@@ -15,7 +15,7 @@ def print_version(ctx, _, value):
     if not value or ctx.resilient_parsing:
         return
     click.echo('rawhdrmerge version ' + rawhdr.__version__ + '\n'
-               'Copyright (C) 2019 Felix Thaler')
+               'Copyright (C) 2019-2020 Felix Thaler')
     ctx.exit()
 
 
@@ -40,7 +40,18 @@ def load_image(path):
     return rgb.astype('float32') / 2**16
 
 
-@click.command()
+@click.group()
+@click.option('--version',
+              '-v',
+              is_flag=True,
+              callback=print_version,
+              expose_value=False,
+              is_eager=True)
+def main():
+    pass
+
+
+@main.command()
 @click.argument('images', nargs=-1, type=click.Path(exists=True))
 @click.option('--output',
               '-o',
@@ -61,19 +72,18 @@ def load_image(path):
 @click.option('--target-gamma',
               type=float,
               help='Gamma correction used in internal computations.')
-@click.option('--version',
-              '-v',
-              is_flag=True,
-              callback=print_version,
-              expose_value=False,
-              is_eager=True)
-def main(images, output, save_memory, mask_width, blend_width, blend_cap,
-         target_gamma):
+def merge(images, output, save_memory, mask_width, blend_width, blend_cap,
+          target_gamma):
     """Command-line utility for merging RAW images into a single HDR image.
 
     All input images must be RAW images. The exposure of the first image is
     taken as reference for the brightness of the resulting HDR image.
     """
+    from rawhdr import merge
+
+    if not images:
+        return
+
     if output is None:
         output = os.path.splitext(images[0])[0] + '-hdr.exr'
 
@@ -83,20 +93,20 @@ def main(images, output, save_memory, mask_width, blend_width, blend_cap,
         merged = load_image(merged)
         for image in other_images:
             image = load_image(image)
-            merged = rawhdr.merge_exposures([merged, image],
-                                            mask_width=mask_width,
-                                            blend_width=blend_width,
-                                            blend_cap=blend_cap,
-                                            target_gamma=target_gamma,
-                                            weight_first=False)
+            merged = merge.merge_exposures([merged, image],
+                                           mask_width=mask_width,
+                                           blend_width=blend_width,
+                                           blend_cap=blend_cap,
+                                           target_gamma=target_gamma,
+                                           weight_first=False)
             del image
     else:
         # Load all images at ones and perform merging
         images = [load_image(image) for image in images]
-        merged = rawhdr.merge_exposures(images,
-                                        mask_width=mask_width,
-                                        blend_width=blend_width,
-                                        blend_cap=blend_cap,
-                                        target_gamma=target_gamma)
+        merged = merge.merge_exposures(images,
+                                       mask_width=mask_width,
+                                       blend_width=blend_width,
+                                       blend_cap=blend_cap,
+                                       target_gamma=target_gamma)
 
     imageio.imsave(output, merged.astype('float32'))
