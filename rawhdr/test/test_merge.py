@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-"""Unit tests of rawhdr."""
+"""Unit tests of rawhdr.merge."""
 
 import unittest
 

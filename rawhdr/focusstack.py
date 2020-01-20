@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Functions for focus stacking of images."""
 
 import numpy as np

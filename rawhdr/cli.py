@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*_
 """Command line tool of rawhdr."""
 
 import os

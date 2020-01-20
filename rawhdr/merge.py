@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Functions for merging HDR images."""
 
 import numpy as np
