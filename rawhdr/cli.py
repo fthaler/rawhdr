@@ -110,3 +110,34 @@ def merge(images, output, save_memory, mask_width, blend_width, blend_cap,
                                        target_gamma=target_gamma)
 
     imageio.imsave(output, merged.astype('float32'))
+
+
+@main.command()
+@click.argument('images', nargs=-1, type=click.Path(exists=True))
+@click.option('--output',
+              '-o',
+              type=click.Path(),
+              help='File name of the stacked output image.')
+@click.option('--sigma',
+              type=float,
+              help='Sigma parameter for sharpness computation.')
+@click.option('--power',
+              type=float,
+              help='Power parameter for sharpness computation.')
+def focus_stack(images, output, sigma, power):
+    from rawhdr import focusstack
+
+    if not images:
+        return
+
+    if output is None:
+        output = os.path.splitext(images[0])[0] + '-stacked.exr'
+
+    images = [load_image(image) for image in images]
+    stacked = focusstack.stack_images(images, sigma=sigma, power=power)
+
+    imageio.imsave(output, stacked.astype('float32'))
+
+
+if __name__ == '__main__':
+    main()
