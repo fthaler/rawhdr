@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; rawhdr 0.3.0 documentation</title>
+  <title>Index &mdash; rawhdr 0.4.0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.3
+                0.4
               </div>
             
           
@@ -87,12 +87,18 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="usage/quickstart.html">Quickstart</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="usage/quickstart.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage/quickstart.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/quickstart.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage/quickstart.html#merging-hdr-images">Merging HDR Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/quickstart.html#focus-stacking">Focus Stacking</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usage/api.html">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="usage/api.html#main-function-for-exposure-merging">Main Function for Exposure Merging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/api.html#main-function-for-focus-stacking">Main Function for Focus Stacking</a></li>
 <li class="toctree-l2"><a class="reference internal" href="usage/api.html#helper-functions-for-exposure-merging">Helper Functions for Exposure Merging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/api.html#helper-functions-for-focus-stacking">Helper Functions for Focus Stacking</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usage/faq.html">FAQ</a></li>
@@ -164,16 +170,19 @@
 <div class="genindex-jumpbox">
  <a href="#C"><strong>C</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#S"><strong>S</strong></a>
  
 </div>
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="usage/api.html#rawhdr.compute_scaling">compute_scaling() (in module rawhdr)</a>
+      <li><a href="usage/api.html#rawhdr.merge.compute_scaling">compute_scaling() (in module rawhdr.merge)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="usage/api.html#rawhdr.compute_weight">compute_weight() (in module rawhdr)</a>
+      <li><a href="usage/api.html#rawhdr.focusstack.compute_sharpness">compute_sharpness() (in module rawhdr.focusstack)</a>
+</li>
+      <li><a href="usage/api.html#rawhdr.merge.compute_weight">compute_weight() (in module rawhdr.merge)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -181,7 +190,15 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="usage/api.html#rawhdr.merge_exposures">merge_exposures() (in module rawhdr)</a>
+      <li><a href="usage/api.html#rawhdr.merge.merge_exposures">merge_exposures() (in module rawhdr.merge)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="usage/api.html#rawhdr.focusstack.stack_images">stack_images() (in module rawhdr.focusstack)</a>
 </li>
   </ul></td>
 </tr></table>

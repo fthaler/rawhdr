@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Quickstart &mdash; rawhdr 0.3.0 documentation</title>
+  <title>Quickstart &mdash; rawhdr 0.4.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.3
+                0.4
               </div>
             
           
@@ -88,12 +88,18 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#merging-hdr-images">Merging HDR Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#focus-stacking">Focus Stacking</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api.html#main-function-for-exposure-merging">Main Function for Exposure Merging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#main-function-for-focus-stacking">Main Function for Focus Stacking</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#helper-functions-for-exposure-merging">Helper Functions for Exposure Merging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#helper-functions-for-focus-stacking">Helper Functions for Focus Stacking</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
@@ -172,9 +178,11 @@
 </div>
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>Run <cite>rawhdrmerge</cite> from the command line.
+<div class="section" id="merging-hdr-images">
+<h3>Merging HDR Images<a class="headerlink" href="#merging-hdr-images" title="Permalink to this headline">¶</a></h3>
+<p>Run <cite>rawhdr</cite> from the command line.
 To merge three Nikon NEF files, run for example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rawhdrmerge --output result.exr base.NEF under-exposed.NEF over-exposed.NEF
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rawhdr hdr-merge --output result.exr base.NEF under-exposed.NEF over-exposed.NEF
 </pre></div>
 </div>
 <p>Any RAW file format known by the <a class="reference external" href="https://letmaik.github.io/rawpy/">rawpy</a> library is supported as input.
@@ -182,6 +190,24 @@ Any HDR file format knwon by <a class="reference external" href="https://imageio
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The exposure of the generated HDR image alway matches the first given RAW image.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For further command line parameters, see <code class="docutils literal notranslate"><span class="pre">rawhdr</span> <span class="pre">hdr-merge</span> <span class="pre">--help</span></code>.
+But in many cases the default parameters should work reasonably well.</p>
+</div>
+</div>
+<div class="section" id="focus-stacking">
+<h3>Focus Stacking<a class="headerlink" href="#focus-stacking" title="Permalink to this headline">¶</a></h3>
+<p>Focus-stacking works similar to HDR merging:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rawhdr focus-stack --output result.exr image-1.NEF image-2.NEF image-3.NEF …
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For further command line parameters, see <code class="docutils literal notranslate"><span class="pre">rawhdr</span> <span class="pre">focus-stack</span> <span class="pre">--help</span></code>.
+But in many cases the default parameters should work reasonably well.</p>
+</div>
 </div>
 </div>
 </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>API &mdash; rawhdr 0.3.0 documentation</title>
+  <title>API &mdash; rawhdr 0.4.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.3
+                0.4
               </div>
             
           
@@ -93,7 +93,9 @@
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#main-function-for-exposure-merging">Main Function for Exposure Merging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#main-function-for-focus-stacking">Main Function for Focus Stacking</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#helper-functions-for-exposure-merging">Helper Functions for Exposure Merging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#helper-functions-for-focus-stacking">Helper Functions for Focus Stacking</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
@@ -166,8 +168,8 @@
 <div class="section" id="main-function-for-exposure-merging">
 <h2>Main Function for Exposure Merging<a class="headerlink" href="#main-function-for-exposure-merging" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="rawhdr.merge_exposures">
-<code class="descclassname">rawhdr.</code><code class="descname">merge_exposures</code><span class="sig-paren">(</span><em>exposures</em>, <em>mask_width=None</em>, <em>blend_width=None</em>, <em>blend_cap=None</em>, <em>target_gamma=None</em>, <em>weight_first=True</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.merge_exposures" title="Permalink to this definition">¶</a></dt>
+<dt id="rawhdr.merge.merge_exposures">
+<code class="sig-prename descclassname">rawhdr.merge.</code><code class="sig-name descname">merge_exposures</code><span class="sig-paren">(</span><em class="sig-param">exposures</em>, <em class="sig-param">mask_width=None</em>, <em class="sig-param">blend_width=None</em>, <em class="sig-param">blend_cap=None</em>, <em class="sig-param">target_gamma=None</em>, <em class="sig-param">weight_first=True</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.merge.merge_exposures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Merge multiple LDR images into a HDR image.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -193,11 +195,19 @@ HDR image.</p></li>
 </dd></dl>
 
 </div>
+<div class="section" id="main-function-for-focus-stacking">
+<h2>Main Function for Focus Stacking<a class="headerlink" href="#main-function-for-focus-stacking" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="rawhdr.focusstack.stack_images">
+<code class="sig-prename descclassname">rawhdr.focusstack.</code><code class="sig-name descname">stack_images</code><span class="sig-paren">(</span><em class="sig-param">images</em>, <em class="sig-param">sigma=None</em>, <em class="sig-param">power=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.focusstack.stack_images" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
 <div class="section" id="helper-functions-for-exposure-merging">
 <h2>Helper Functions for Exposure Merging<a class="headerlink" href="#helper-functions-for-exposure-merging" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="rawhdr.compute_scaling">
-<code class="descclassname">rawhdr.</code><code class="descname">compute_scaling</code><span class="sig-paren">(</span><em>image</em>, <em>base_image</em>, <em>mask_width=None</em>, <em>target_gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.compute_scaling" title="Permalink to this definition">¶</a></dt>
+<dt id="rawhdr.merge.compute_scaling">
+<code class="sig-prename descclassname">rawhdr.merge.</code><code class="sig-name descname">compute_scaling</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">base_image</em>, <em class="sig-param">mask_width=None</em>, <em class="sig-param">target_gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.merge.compute_scaling" title="Permalink to this definition">¶</a></dt>
 <dd><p>Exposure scaling computation.</p>
 <p>Computes the scaling required for <cite>image</cite> such that its
 brightness/exposure is equal to <cite>base_image</cite>.</p>
@@ -227,8 +237,8 @@ equal to <cite>base_image</cite>.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="rawhdr.compute_weight">
-<code class="descclassname">rawhdr.</code><code class="descname">compute_weight</code><span class="sig-paren">(</span><em>image</em>, <em>blend_low=True</em>, <em>blend_high=True</em>, <em>blend_width=None</em>, <em>blend_cap=None</em>, <em>target_gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.compute_weight" title="Permalink to this definition">¶</a></dt>
+<dt id="rawhdr.merge.compute_weight">
+<code class="sig-prename descclassname">rawhdr.merge.</code><code class="sig-name descname">compute_weight</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">blend_low=True</em>, <em class="sig-param">blend_high=True</em>, <em class="sig-param">blend_width=None</em>, <em class="sig-param">blend_cap=None</em>, <em class="sig-param">target_gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.merge.compute_weight" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute per-pixel blending weights.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -249,6 +259,14 @@ equal to <cite>base_image</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
+
+</div>
+<div class="section" id="helper-functions-for-focus-stacking">
+<h2>Helper Functions for Focus Stacking<a class="headerlink" href="#helper-functions-for-focus-stacking" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="rawhdr.focusstack.compute_sharpness">
+<code class="sig-prename descclassname">rawhdr.focusstack.</code><code class="sig-name descname">compute_sharpness</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">sigma=None</em>, <em class="sig-param">power=None</em><span class="sig-paren">)</span><a class="headerlink" href="#rawhdr.focusstack.compute_sharpness" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 </div>
