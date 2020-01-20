@@ -71,8 +71,8 @@ def main():
 @click.option('--target-gamma',
               type=float,
               help='Gamma correction used in internal computations.')
-def merge(images, output, save_memory, mask_width, blend_width, blend_cap,
-          target_gamma):
+def hdr_merge(images, output, save_memory, mask_width, blend_width, blend_cap,
+              target_gamma):
     """Command-line utility for merging RAW images into a single HDR image.
 
     All input images must be RAW images. The exposure of the first image is
@@ -124,6 +124,10 @@ def merge(images, output, save_memory, mask_width, blend_width, blend_cap,
               type=float,
               help='Power parameter for sharpness computation.')
 def focus_stack(images, output, sigma, power):
+    """Command-line utility for focus stacking of RAW images.
+
+    All input images must be RAW images.
+    """
     from rawhdr import focusstack
 
     if not images:
