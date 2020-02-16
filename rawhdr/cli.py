@@ -13,7 +13,7 @@ def print_version(ctx, _, value):
     """Print version information."""
     if not value or ctx.resilient_parsing:
         return
-    click.echo('rawhdrmerge version ' + rawhdr.__version__ + '\n'
+    click.echo('rawhdr version ' + rawhdr.__version__ + '\n'
                'Copyright (C) 2019-2020 Felix Thaler')
     ctx.exit()
 
