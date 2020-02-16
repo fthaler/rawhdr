@@ -26,21 +26,24 @@ def version():
     raise RuntimeError('Unable to find version string')
 
 
-setuptools.setup(
-    name='rawhdr',
-    version=version(),
-    author='Felix Thaler',
-    author_email='felix.thaler@nummi.ch',
-    description='A simple HDR image merger',
-    long_description=long_description(),
-    long_description_content_type='text/markdown',
-    url='https://github.com/fthaler/rawhdr',
-    packages=setuptools.find_packages(),
-    entry_points={'console_scripts': ['rawhdr=rawhdr.cli:main']},
-    install_requires=['click', 'imageio', 'numpy', 'rawpy', 'scipy'],
-    classifiers=[
-        'Programming Language :: Python', 'License :: OSI Approved :: '
-        'GNU General Public License v2 or later (GPLv2+)',
-        'Operating System :: OS Independent',
-        'Topic :: Multimedia :: Graphics :: Graphics Conversion'
-    ])
+setuptools.setup(name='rawhdr',
+                 version=version(),
+                 author='Felix Thaler',
+                 author_email='felix.thaler@nummi.ch',
+                 description='A simple HDR image merger',
+                 long_description=long_description(),
+                 long_description_content_type='text/markdown',
+                 url='https://github.com/fthaler/rawhdr',
+                 packages=setuptools.find_packages(),
+                 entry_points={'console_scripts': ['rawhdr=rawhdr.cli:main']},
+                 install_requires=[
+                     'click', 'dtcwt', 'imageio', 'numpy', 'pywt', 'rawpy',
+                     'scipy'
+                 ],
+                 classifiers=[
+                     'Programming Language :: Python',
+                     'License :: OSI Approved :: '
+                     'GNU General Public License v2 or later (GPLv2+)',
+                     'Operating System :: OS Independent',
+                     'Topic :: Multimedia :: Graphics :: Graphics Conversion'
+                 ])
