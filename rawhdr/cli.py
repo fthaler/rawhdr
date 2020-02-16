@@ -119,11 +119,17 @@ def hdr_merge(images, output, save_memory, mask_width, blend_width, blend_cap,
               help='File name of the stacked output image.')
 @click.option('--sigma',
               type=float,
-              help='Sigma parameter for sharpness computation.')
-@click.option('--power',
-              type=float,
-              help='Power parameter for sharpness computation.')
-def focus_stack(images, output, sigma, power):
+              help='Standard deviation of filter used in merger '
+              '(availabilty and exact meaning depends on --merger option).')
+@click.option('--levels',
+              type=int,
+              help='Number of levels used in wavelet transforms '
+              '(availabilty and exact meaning depends on --merger option).')
+@click.option('--merger',
+              type=click.Choice(['highpass', 'wavelet', 'dtcwt', 'wavelet2']),
+              help='Kind of merger to use.',
+              default='highpass')
+def focus_stack(images, output, sigma, levels, merger):
     """Command-line utility for focus stacking of RAW images.
 
     All input images must be RAW images.
@@ -136,8 +142,35 @@ def focus_stack(images, output, sigma, power):
     if output is None:
         output = os.path.splitext(images[0])[0] + '-stacked.exr'
 
-    images = [load_image(image) for image in images]
-    stacked = focusstack.stack_images(images, sigma=sigma, power=power)
+    def merge(first, second):
+        if merger == 'dtcwt':
+            return focusstack.merge_dtcwt(first,
+                                          second,
+                                          levels=levels,
+                                          sigma=sigma)
+        if merger == 'highpass':
+            if levels is not None:
+                raise ValueError(
+                    'Option --levels is not supported for this merger.')
+            return focusstack.merge_highpass(first, second, sigma=sigma)
+        elif merger == 'wavelet':
+            return focusstack.merge_waveletes(first,
+                                              second,
+                                              levels=levels,
+                                              sigma=sigma)
+        elif merger == 'wavelet2':
+            if sigma is not None:
+                raise ValueError(
+                    'Option --sigma is not supported for this merger.')
+            return focusstack.merge_waveletes2(first, second, levels=levels)
+        else:
+            raise ValueError()
+
+    images = list(images)
+    stacked = load_image(images.pop())
+    while images:
+        image = load_image(images.pop())
+        stacked = merge(stacked, image)
 
     imageio.imsave(output, stacked.astype('float32'))
 
