@@ -1,6 +1,6 @@
 # Rawhdr
 
-[![Build Status](https://travis-ci.com/fthaler/rawhdr.svg?branch=master)](https://travis-ci.com/fthaler/rawhdr)
+![Test](https://github.com/fthaler/rawhdr/workflows/Test/badge.svg)
 
 A simple HDR image merger that converts multiple RAW files into a single HDR image.
 
