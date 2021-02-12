@@ -4,6 +4,7 @@ import os
 
 import click
 import imageio
+import numpy as np
 import rawpy
 
 import rawhdr
@@ -31,12 +32,18 @@ def load_image(path):
     image : ndarray
         Loaded image data in linear color space.
     """
-    with rawpy.imread(path) as raw:
-        rgb = raw.postprocess(gamma=(1, 1),
-                              no_auto_bright=True,
-                              use_camera_wb=True,
-                              output_bps=16)
-    return rgb.astype('float32') / 2**16
+    try:
+        with rawpy.imread(path) as raw:
+            rgb = raw.postprocess(gamma=(1, 1),
+                                  no_auto_bright=True,
+                                  use_camera_wb=True,
+                                  output_bps=16)
+        return rgb.astype('float32') / np.float32(2**16)
+    except rawpy._rawpy.LibRawNonFatalError:
+        rgb = imageio.imread(path)
+        if rgb.dtype.kind != 'f':
+            raise RuntimeError('only RAW or floating point images are support')
+        return rgb.astype('float32')
 
 
 @click.group()
