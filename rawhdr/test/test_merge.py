@@ -106,7 +106,7 @@ def test_blending():
     assert np.allclose(result, np.minimum(expected, expected[::-1]))
 
 
-def test_argument_check(image_gen):
+def test_weight_argument_check(image_gen):
     """Test checking of function argument values."""
     image = image_gen()
 
@@ -150,7 +150,7 @@ def test_merging_without_weight_first(image_gen):
     assert np.allclose(image, result)
 
 
-def test_argument_check():
+def test_merge_argument_check():
     """Test checking of function argument values."""
     with pytest.raises(ValueError):
         merge.merge_exposures([])

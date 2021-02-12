@@ -28,3 +28,7 @@ def load_image(path):
         if rgb.dtype.kind != 'f':
             raise RuntimeError('only RAW or floating point images are support')
         return rgb.astype('float32')
+
+
+def save_image(path, image):
+    imageio.imsave(path, image)

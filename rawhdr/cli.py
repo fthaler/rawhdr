@@ -3,10 +3,9 @@
 import os
 
 import click
-import numpy as np
 
 import rawhdr
-from rawhdr.common import load_image
+from rawhdr.common import load_image, save_image
 
 
 def print_version(ctx, _, value):
@@ -87,7 +86,7 @@ def hdr_merge(images, output, save_memory, mask_width, blend_width, blend_cap,
                                        blend_cap=blend_cap,
                                        target_gamma=target_gamma)
 
-    imageio.imsave(output, merged.astype('float32'))
+    save_image(output, merged.astype('float32'))
 
 
 @main.command()
@@ -151,7 +150,7 @@ def focus_stack(images, output, sigma, levels, merger):
         image = load_image(images.pop())
         stacked = merge(stacked, image)
 
-    imageio.imsave(output, stacked.astype('float32'))
+    save_image(output, stacked.astype('float32'))
 
 
 if __name__ == '__main__':
