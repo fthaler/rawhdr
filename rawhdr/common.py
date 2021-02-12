@@ -1,4 +1,8 @@
+import pathlib
+import tempfile
+
 import imageio
+import numpy as np
 import rawpy
 
 
@@ -32,3 +36,41 @@ def load_image(path):
 
 def save_image(path, image):
     imageio.imsave(path, image)
+
+
+class _TemporaryArrayList:
+    def __init__(self):
+        self._tmpdir = tempfile.TemporaryDirectory()
+        self._len = 0
+
+    def __len__(self):
+        return self._len
+
+    def _path(self, index):
+        if index < 0:
+            index = self._len + index
+        assert 0 <= index < self._len
+        return pathlib.Path(self._tmpdir.name) / f'{index}.npy'
+
+    def __getitem__(self, index):
+        return np.load(self._path(index), mmap_mode='c')
+
+    def __setitem__(self, index, value):
+        return np.save(self._path(index), value)
+
+    def append(self, value):
+        self._len += 1
+        self[-1] = value
+
+    def __iter__(self):
+        def generator():
+            for i in range(self._len):
+                yield self[i]
+
+        return generator()
+
+
+def temporary_array_list(in_memory=False):
+    if in_memory:
+        return []
+    return _TemporaryArrayList()
