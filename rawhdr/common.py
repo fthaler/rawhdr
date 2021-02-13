@@ -38,6 +38,26 @@ def save_image(path, image):
     imageio.imsave(path, image)
 
 
+def principal_component(image):
+    if image.ndim == 2:
+        return image
+
+    mu = np.mean(image, axis=(0, 1), keepdims=True)
+    b = np.reshape(image - mu, (-1, image.shape[2]))
+    cov = (b.T @ b) / (b.shape[0] - 1)
+    w, v = np.linalg.eig(cov)
+    i = np.argmax(w)
+    return np.reshape(b @ v[:, i], image.shape[:2])
+
+
+def reduce_color_dimension(image, pca=False):
+    if image.ndim == 2:
+        return image
+    if pca:
+        return principal_component(image)
+    return np.sqrt(np.sum(image**2, axis=2))
+
+
 class _TemporaryArrayList:
     def __init__(self):
         self._tmpdir = tempfile.TemporaryDirectory()

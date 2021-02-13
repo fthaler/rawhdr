@@ -96,7 +96,8 @@ def exposure_fusion(images, output, save_memory, mask_width, blend_width,
               type=click.Path(),
               help='File name of the output HDR image.')
 @click.option('--wavelet-levels', '-w', type=int)
-def generic_fusion(images, output, wavelet_levels):
+@click.option('--principal-component', '-p', default=False, is_flag=True)
+def generic_fusion(images, output, wavelet_levels, principal_component):
     if not images:
         return
 
@@ -111,7 +112,8 @@ def generic_fusion(images, output, wavelet_levels):
         image = load_image(image)
         fused = generic_fusion.fuse_wavelets(fused,
                                              image,
-                                             levels=wavelet_levels)
+                                             levels=wavelet_levels,
+                                             pca=principal_component)
         del image
 
     save_image(output, fused.astype('float32'))

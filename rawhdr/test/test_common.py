@@ -12,6 +12,35 @@ def image_gen():
     return lambda: rng.uniform(size=(5, 7, 3))
 
 
+def test_principal_component(image_gen):
+    image = image_gen()
+
+    # set two channels to zero, remaining channel to zero mean
+    image[:, :, 1:] = 0
+    image[:, :, 0] -= np.mean(image[:, :, 0])
+
+    # rotate with some rotation matrix
+    rot = rng.normal(size=(3, 3))
+    rot = rot.T @ rot
+    rot /= np.sqrt(np.sum(rot**2, axis=0, keepdims=True))
+    rotated = np.einsum("ik,...k->...i", rot, image, optimize=True)
+
+    # check that PCA recovers (possibly negative) unrotated result
+    pc = common.principal_component(rotated)
+    assert np.allclose(pc, image[..., 0]) or np.allclose(-pc, image[..., 0])
+
+
+def test_reduce_color_dimension(image_gen):
+    image = image_gen()
+
+    assert common.reduce_color_dimension(image,
+                                         pca=False).shape == image.shape[:2]
+    assert common.reduce_color_dimension(image,
+                                         pca=True).shape == image.shape[:2]
+    assert common.reduce_color_dimension(image[...,
+                                               0]).shape == image.shape[:2]
+
+
 @pytest.fixture(params=[True, False])
 def temporary_array_list(request):
     return common.temporary_array_list(in_memory=request.param)
