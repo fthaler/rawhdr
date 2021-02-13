@@ -88,6 +88,7 @@ def exposure_fusion(images, output, save_memory, mask_width, blend_width,
 
     save_image(output, fused.astype('float32'))
 
+
 @main.command()
 @click.argument('images', nargs=-1, type=click.Path(exists=True))
 @click.option('--output',
@@ -108,11 +109,12 @@ def generic_fusion(images, output, wavelet_levels):
     fused = load_image(fused)
     for image in other_images:
         image = load_image(image)
-        fused = generic_fusion.fuse_wavelets(fused, image, levels=wavelet_levels)
+        fused = generic_fusion.fuse_wavelets(fused,
+                                             image,
+                                             levels=wavelet_levels)
         del image
 
     save_image(output, fused.astype('float32'))
-
 
 
 if __name__ == '__main__':
