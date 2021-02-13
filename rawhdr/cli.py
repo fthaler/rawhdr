@@ -56,17 +56,17 @@ def exposure_fusion(images, output, save_memory, mask_width, blend_width,
     All input images must be RAW images. The exposure of the first image is
     taken as reference for the brightness of the resulting HDR image.
     """
-    from rawhdr import exposure_fusion
-
     if not images:
         return
 
     if output is None:
         output = os.path.splitext(images[0])[0] + '-hdr.exr'
 
+    from rawhdr import exposure_fusion
+
     if save_memory:
         # Load one image after another to save memory
-        fused, other_images = images[0], images[1:]
+        fused, *other_images = images
         fused = load_image(fused)
         for image in other_images:
             image = load_image(image)
@@ -88,69 +88,31 @@ def exposure_fusion(images, output, save_memory, mask_width, blend_width,
 
     save_image(output, fused.astype('float32'))
 
-
 @main.command()
 @click.argument('images', nargs=-1, type=click.Path(exists=True))
 @click.option('--output',
               '-o',
               type=click.Path(),
-              help='File name of the stacked output image.')
-@click.option('--sigma',
-              type=float,
-              help='Standard deviation of filter used in merger '
-              '(availabilty and exact meaning depends on --merger option).')
-@click.option('--levels',
-              type=int,
-              help='Number of levels used in wavelet transforms '
-              '(availabilty and exact meaning depends on --merger option).')
-@click.option('--merger',
-              type=click.Choice(['highpass', 'wavelet', 'dtcwt', 'wavelet2']),
-              help='Kind of merger to use.',
-              default='highpass')
-def focus_stack(images, output, sigma, levels, merger):
-    """Command-line utility for focus stacking of RAW images.
-
-    All input images must be RAW images.
-    """
-    from rawhdr import focusstack
-
+              help='File name of the output HDR image.')
+@click.option('--wavelet-levels', '-w', type=int)
+def generic_fusion(images, output, wavelet_levels):
     if not images:
         return
 
     if output is None:
-        output = os.path.splitext(images[0])[0] + '-stacked.exr'
+        output = os.path.splitext(images[0])[0] + '-fused.exr'
 
-    def merge(first, second):
-        if merger == 'dtcwt':
-            return focusstack.merge_dtcwt(first,
-                                          second,
-                                          levels=levels,
-                                          sigma=sigma)
-        if merger == 'highpass':
-            if levels is not None:
-                raise ValueError(
-                    'Option --levels is not supported for this merger.')
-            return focusstack.merge_highpass(first, second, sigma=sigma)
-        elif merger == 'wavelet':
-            return focusstack.merge_waveletes(first,
-                                              second,
-                                              levels=levels,
-                                              sigma=sigma)
-        elif merger == 'wavelet2':
-            if sigma is not None:
-                raise ValueError(
-                    'Option --sigma is not supported for this merger.')
-            return focusstack.merge_waveletes2(first, second, levels=levels)
-        else:
-            raise ValueError()
+    from rawhdr import generic_fusion
 
-    images = list(images)
-    stacked = load_image(images.pop())
-    while images:
-        image = load_image(images.pop())
-        stacked = merge(stacked, image)
+    fused, *other_images = images
+    fused = load_image(fused)
+    for image in other_images:
+        image = load_image(image)
+        fused = generic_fusion.fuse_wavelets(fused, image, levels=wavelet_levels)
+        del image
 
-    save_image(output, stacked.astype('float32'))
+    save_image(output, fused.astype('float32'))
+
 
 
 if __name__ == '__main__':
