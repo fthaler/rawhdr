@@ -1,4 +1,4 @@
-"""Functions for merging HDR images."""
+"""Functions for fusing HDR images."""
 
 import numpy as np
 
@@ -134,12 +134,12 @@ def compute_weight(image,
     return mask
 
 
-def merge_exposures(exposures,
-                    mask_width=None,
-                    blend_width=None,
-                    blend_cap=None,
-                    target_gamma=None,
-                    weight_first=True):
+def fuse_exposures(exposures,
+                   mask_width=None,
+                   blend_width=None,
+                   blend_cap=None,
+                   target_gamma=None,
+                   weight_first=True):
     """Merge multiple LDR images into a HDR image.
 
     Parameters
@@ -161,8 +161,8 @@ def merge_exposures(exposures,
 
     Returns
     -------
-    merged : numpy.ndarray
-        Merged HDR image width same exposure as the first image in the
+    fused : numpy.ndarray
+        Fused HDR image width same exposure as the first image in the
         `exposures` input list.
     """
     exposures = list(exposures)

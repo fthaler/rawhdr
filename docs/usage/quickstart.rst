@@ -18,11 +18,11 @@ Merging HDR Images
 ~~~~~~~~~~~~~~~~~~
 
 Run `rawhdr` from the command line.
-To merge three Nikon NEF files, run for example:
+To fuse three Nikon NEF files, run for example:
 
 .. code-block:: bash
 
-   rawhdr hdr-merge --output result.exr base.NEF under-exposed.NEF over-exposed.NEF
+   rawhdr exposure-fusion --output result.exr base.NEF under-exposed.NEF over-exposed.NEF
 
 Any RAW file format known by the `rawpy <https://letmaik.github.io/rawpy/>`_ library is supported as input.
 Any HDR file format knwon by `imageio <https://imageio.github.io/>`_ is supported as output.
@@ -33,13 +33,13 @@ Any HDR file format knwon by `imageio <https://imageio.github.io/>`_ is supporte
 
 .. note::
 
-    For further command line parameters, see ``rawhdr hdr-merge --help``.
+    For further command line parameters, see ``rawhdr exposure-fusion --help``.
     But in many cases the default parameters should work reasonably well.
 
 Focus Stacking
 ~~~~~~~~~~~~~~
 
-Focus-stacking works similar to HDR merging:
+Focus-stacking works similar to HDR fusion:
 
 .. code-block:: bash
 

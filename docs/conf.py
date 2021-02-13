@@ -20,7 +20,7 @@ sys.path.insert(0, package_path)
 # -- Project information -----------------------------------------------------
 
 project = 'rawhdr'
-copyright = '2019, Felix Thaler'
+copyright = '2019 – 2021, Felix Thaler'
 author = 'Felix Thaler'
 
 # The full version, including alpha/beta/rc tags

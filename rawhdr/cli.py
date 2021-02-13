@@ -13,7 +13,7 @@ def print_version(ctx, _, value):
     if not value or ctx.resilient_parsing:
         return
     click.echo('rawhdr version ' + rawhdr.__version__ + '\n'
-               'Copyright (C) 2019-2020 Felix Thaler')
+               'Copyright (C) 2019 – 2021 Felix Thaler')
     ctx.exit()
 
 
@@ -49,14 +49,14 @@ def main():
 @click.option('--target-gamma',
               type=float,
               help='Gamma correction used in internal computations.')
-def hdr_merge(images, output, save_memory, mask_width, blend_width, blend_cap,
-              target_gamma):
-    """Command-line utility for merging RAW images into a single HDR image.
+def exposure_fusion(images, output, save_memory, mask_width, blend_width,
+                    blend_cap, target_gamma):
+    """Command-line utility for fusing RAW images into a single HDR image.
 
     All input images must be RAW images. The exposure of the first image is
     taken as reference for the brightness of the resulting HDR image.
     """
-    from rawhdr import merge
+    from rawhdr import exposure_fusion
 
     if not images:
         return
@@ -66,27 +66,27 @@ def hdr_merge(images, output, save_memory, mask_width, blend_width, blend_cap,
 
     if save_memory:
         # Load one image after another to save memory
-        merged, other_images = images[0], images[1:]
-        merged = load_image(merged)
+        fused, other_images = images[0], images[1:]
+        fused = load_image(fused)
         for image in other_images:
             image = load_image(image)
-            merged = merge.merge_exposures([merged, image],
-                                           mask_width=mask_width,
-                                           blend_width=blend_width,
-                                           blend_cap=blend_cap,
-                                           target_gamma=target_gamma,
-                                           weight_first=False)
+            fused = exposure_fusion.fuse_exposures([fused, image],
+                                                   mask_width=mask_width,
+                                                   blend_width=blend_width,
+                                                   blend_cap=blend_cap,
+                                                   target_gamma=target_gamma,
+                                                   weight_first=False)
             del image
     else:
-        # Load all images at ones and perform merging
+        # Load all images at ones and perform fusion
         images = [load_image(image) for image in images]
-        merged = merge.merge_exposures(images,
-                                       mask_width=mask_width,
-                                       blend_width=blend_width,
-                                       blend_cap=blend_cap,
-                                       target_gamma=target_gamma)
+        fused = exposure_fusion.fuse_exposures(images,
+                                               mask_width=mask_width,
+                                               blend_width=blend_width,
+                                               blend_cap=blend_cap,
+                                               target_gamma=target_gamma)
 
-    save_image(output, merged.astype('float32'))
+    save_image(output, fused.astype('float32'))
 
 
 @main.command()

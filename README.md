@@ -2,7 +2,7 @@
 
 ![Test](https://github.com/fthaler/rawhdr/workflows/Test/badge.svg)
 
-A simple HDR image merger that converts multiple RAW files into a single HDR image.
+A simple HDR image fuser that converts multiple RAW files into a single HDR image.
 
 ## Installation
 
@@ -14,9 +14,9 @@ Installation via the [Python Package Index](https://pypi.org/):
 
 ### Merging HDR Images
 
-Use the command-line tool _rawhdr_ to merge multiple RAW images into a single high-dynamic-range image.
+Use the command-line tool _rawhdr_ to fuse multiple RAW images into a single high-dynamic-range image.
 
-`$> rawhdr hdr-merge -o merged-hdr.exr base-exposure.RAW under-exposed.RAW over-exposed.RAW`
+`$> rawhdr hdr-fuse -o fused-hdr.exr base-exposure.RAW under-exposed.RAW over-exposed.RAW`
 
 All common RAW file formats are supported.
 
@@ -24,7 +24,7 @@ Note: if you want to save to OpenEXR format and get the error `ValueError: Could
 
 ### Focus Stacking
 
-Focus-stacking works similar to HDR merging:
+Focus-stacking works similar to HDR fusion:
 
 `$> rawhdr focus-stack --output result.exr image-1.NEF image-2.NEF image-3.NEF …`
 

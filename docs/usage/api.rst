@@ -2,10 +2,10 @@ API
 ===
 
 
-Main Function for Exposure Merging
+Main Function for Exposure Fusion
 ----------------------------------
 
-.. autofunction:: rawhdr.merge.merge_exposures
+.. autofunction:: rawhdr.exposure_fusion.fuse_exposures
 
 
 Main Function for Focus Stacking
@@ -13,12 +13,12 @@ Main Function for Focus Stacking
 
 .. autofunction:: rawhdr.focusstack.stack_images
 
-Helper Functions for Exposure Merging
+Helper Functions for Exposure Fusion
 -------------------------------------
 
-.. autofunction:: rawhdr.merge.compute_scaling
+.. autofunction:: rawhdr.exposure_fusion.compute_scaling
 
-.. autofunction:: rawhdr.merge.compute_weight
+.. autofunction:: rawhdr.exposure_fusion.compute_weight
 
 
 Helper Functions for Focus Stacking
