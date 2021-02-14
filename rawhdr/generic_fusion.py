@@ -1,7 +1,5 @@
 """Generic image fusion."""
 
-import math
-
 import numpy as np
 import pywt
 
