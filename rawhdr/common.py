@@ -59,6 +59,29 @@ def reduce_color_dimension(image, pca=False):
 
 
 class _TemporaryArrayList:
+    class _Slice:
+        def __init__(self, parent, range_):
+            self._parent = parent
+            self._range = range_
+
+        def __len__(self):
+            return self._stop - self._start
+
+        def __getitem__(self, index):
+            if isinstance(index, slice):
+                return type(self)(self.parent, self._range[index])
+            return self._parent[self._range[index]]
+
+        def __setitem__(self, index, value):
+            self._parent[self._range[index]] = value
+
+        def __iter__(self):
+            def generator():
+                for i in self._range:
+                    yield self._parent[i]
+
+            return generator()
+
     def __init__(self):
         self._tmpdir = tempfile.TemporaryDirectory()
         self._len = 0
@@ -73,9 +96,12 @@ class _TemporaryArrayList:
         return pathlib.Path(self._tmpdir.name) / f'{index}.npy'
 
     def __getitem__(self, index):
-        return np.load(self._path(index), mmap_mode='c')
+        if isinstance(index, slice):
+            return self._Slice(self, range(self._len)[index])
+        return np.load(self._path(index), mmap_mode='r+')
 
     def __setitem__(self, index, value):
+        assert isinstance(index, int)
         return np.save(self._path(index), value)
 
     def append(self, value):

@@ -71,3 +71,12 @@ def test_temporary_array_list(temporary_array_list, image_gen):
         reference[i] = image_gen()
         temporary_array_list[i] = reference[i]
         assert np.all(temporary_array_list[i] == reference[i])
+
+    for i, r in zip(temporary_array_list[1:], reference[1:]):
+        assert np.all(i == r)
+
+    for i, r in zip(temporary_array_list[::2], reference[::2]):
+        assert np.all(i == r)
+
+    for i, r in zip(temporary_array_list[2:0:-1], reference[2:0:-1]):
+        assert np.all(i == r)
