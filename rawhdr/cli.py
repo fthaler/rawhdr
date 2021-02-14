@@ -33,7 +33,7 @@ def main():
 @click.option('--output',
               '-o',
               type=click.Path(),
-              help='File name of the output HDR image.')
+              help='File name of the output image.')
 @click.option('--save-memory',
               '-s',
               is_flag=True,
@@ -94,10 +94,11 @@ def exposure_fusion(images, output, save_memory, mask_width, blend_width,
 @click.option('--output',
               '-o',
               type=click.Path(),
-              help='File name of the output HDR image.')
+              help='File name of the output image.')
 @click.option('--wavelet-levels', '-w', type=int)
-@click.option('--principal-component', '-p', default=False, is_flag=True)
-def generic_fusion(images, output, wavelet_levels, principal_component):
+@click.option('--pca/--no-pca', default=True)
+@click.option('--stationary/--not-stationary', '-s', default=False)
+def generic_fusion(images, output, wavelet_levels, pca, stationary):
     if not images:
         return
 
@@ -106,14 +107,16 @@ def generic_fusion(images, output, wavelet_levels, principal_component):
 
     from rawhdr import generic_fusion
 
+    if stationary:
+        fuse_func = generic_fusion.fuse_stationary_wavelets
+    else:
+        fuse_func = generic_fusion.fuse_wavelets
+
     fused, *other_images = images
     fused = load_image(fused)
     for image in other_images:
         image = load_image(image)
-        fused = generic_fusion.fuse_wavelets(fused,
-                                             image,
-                                             levels=wavelet_levels,
-                                             pca=principal_component)
+        fused = fuse_func(fused, image, levels=wavelet_levels, pca=pca)
         del image
 
     save_image(output, fused.astype('float32'))
