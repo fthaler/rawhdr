@@ -82,9 +82,12 @@ class _TemporaryArrayList:
 
             return generator()
 
-    def __init__(self):
+    def __init__(self, iterable=None):
         self._tmpdir = tempfile.TemporaryDirectory()
         self._len = 0
+        if iterable is not None:
+            for value in iterable:
+                self.append(value)
 
     def __len__(self):
         return self._len
@@ -116,7 +119,7 @@ class _TemporaryArrayList:
         return generator()
 
 
-def temporary_array_list(in_memory=False):
+def temporary_array_list(iterable=None, *, in_memory=False):
     if in_memory:
-        return []
-    return _TemporaryArrayList()
+        return [] if iterable is None else list(iterable)
+    return _TemporaryArrayList(iterable)

@@ -43,40 +43,54 @@ def test_reduce_color_dimension(image_gen):
 
 @pytest.fixture(params=[True, False])
 def temporary_array_list(request):
-    return common.temporary_array_list(in_memory=request.param)
+    def create(*args, **kwargs):
+        return common.temporary_array_list(*args,
+                                           in_memory=request.param,
+                                           **kwargs)
+
+    return create
 
 
 def test_temporary_array_list(temporary_array_list, image_gen):
-    assert len(temporary_array_list) == 0
+    tal = temporary_array_list()
+    assert len(tal) == 0
 
     reference = []
     for _ in range(3):
         reference.append(image_gen())
-        temporary_array_list.append(reference[-1])
-    assert len(temporary_array_list) == 3
+        tal.append(reference[-1])
+    assert len(tal) == 3
 
-    assert np.all(temporary_array_list[0] == reference[0])
-    assert np.all(temporary_array_list[1] == reference[1])
-    assert np.all(temporary_array_list[2] == reference[2])
+    assert np.all(tal[0] == reference[0])
+    assert np.all(tal[1] == reference[1])
+    assert np.all(tal[2] == reference[2])
 
-    for i, r in zip(temporary_array_list, reference):
+    for i, r in zip(tal, reference):
         assert np.all(i == r)
 
     for i in range(3):
         reference[i] = image_gen()
-        temporary_array_list[i] = reference[i]
-        assert np.all(temporary_array_list[i] == reference[i])
+        tal[i] = reference[i]
+        assert np.all(tal[i] == reference[i])
 
     for i in range(-3, 0):
         reference[i] = image_gen()
-        temporary_array_list[i] = reference[i]
-        assert np.all(temporary_array_list[i] == reference[i])
+        tal[i] = reference[i]
+        assert np.all(tal[i] == reference[i])
 
-    for i, r in zip(temporary_array_list[1:], reference[1:]):
+    for i, r in zip(tal[1:], reference[1:]):
         assert np.all(i == r)
 
-    for i, r in zip(temporary_array_list[::2], reference[::2]):
+    for i, r in zip(tal[::2], reference[::2]):
         assert np.all(i == r)
 
-    for i, r in zip(temporary_array_list[2:0:-1], reference[2:0:-1]):
+    for i, r in zip(tal[2:0:-1], reference[2:0:-1]):
+        assert np.all(i == r)
+
+
+def test_temporary_array_list_from_iterable(temporary_array_list, image_gen):
+    reference = [image_gen() for i in range(10)]
+    tal = temporary_array_list(reference)
+    assert len(tal) == len(reference)
+    for i, r in zip(tal, reference):
         assert np.all(i == r)
