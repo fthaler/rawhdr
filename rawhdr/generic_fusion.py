@@ -21,6 +21,7 @@ def fuse_wavelets(first, second, *, levels=None, pca=False, wavelet=None):
         mask = _coeff_strength(second_cs, pca) > _coeff_strength(first_cs, pca)
         for first_c, second_c in zip(first_cs, second_cs):
             first_c[mask, ...] = second_c[mask, ...]
+    del second
     return pywt.waverec2(first, wavelet, axes=(0, 1))
 
 
