@@ -25,7 +25,8 @@ def fuse_wavelets(first, second, *, levels=None, pca=False, wavelet=None):
     return pywt.waverec2(first, wavelet, axes=(0, 1))
 
 
-def _pad_func(shape, divisor):
+def swt_pad_funcs(shape, levels):
+    divisor = 2**levels
     padded_shape = [((s + divisor - 1) // divisor) * divisor
                     for s in shape[:2]]
     pad_width = [((p - s) // 2, (p - s) - (p - s) // 2)
@@ -54,7 +55,7 @@ def fuse_stationary_wavelets(first,
     if wavelet is None:
         wavelet = 'sym4'
 
-    pad, unpad = _pad_func(first.shape, 2**levels)
+    pad, unpad = swt_pad_funcs(first.shape, levels)
     first = pad(first)
     second = pad(second)
 
