@@ -180,42 +180,45 @@ def fuse_focal_stack_kmax(images,
                            norm=True,
                            trim_approx=True)
         bases.append(coeffs[0])
-        for l in range(levels):
-            cl = coeffs[l + 1]
-            ads[l].append(cl['ad'])
-            das[l].append(cl['da'])
-            dds[l].append(cl['dd'])
+        for level in range(levels):
+            cl = coeffs[level + 1]
+            ads[level].append(cl['ad'])
+            das[level].append(cl['da'])
+            dds[level].append(cl['dd'])
 
     base = np.empty_like(bases[0])
-    ad = [np.empty_like(ads[l][0]) for l in range(levels)]
-    da = [np.empty_like(das[l][0]) for l in range(levels)]
-    dd = [np.empty_like(dds[l][0]) for l in range(levels)]
+    ad = [np.empty_like(ads[level][0]) for level in range(levels)]
+    da = [np.empty_like(das[level][0]) for level in range(levels)]
+    dd = [np.empty_like(dds[level][0]) for level in range(levels)]
     first = np.full(shape[:2], True)
 
     for i, s in enumerate(sharpnesses):
         mask = np.any(s[:, :, np.newaxis] == kmax, axis=2)
         mask_and_first = mask & first
         base[mask_and_first, ...] = bases[i][mask_and_first, ...]
-        for l in range(levels):
-            ad[l][mask_and_first, ...] = ads[l][i][mask_and_first, ...]
-            da[l][mask_and_first, ...] = das[l][i][mask_and_first, ...]
-            dd[l][mask_and_first, ...] = dds[l][i][mask_and_first, ...]
+        for level in range(levels):
+            ad[level][mask_and_first, ...] = ads[level][i][mask_and_first, ...]
+            da[level][mask_and_first, ...] = das[level][i][mask_and_first, ...]
+            dd[level][mask_and_first, ...] = dds[level][i][mask_and_first, ...]
         del mask_and_first
         mask_and_not_first = mask & ~first
         base[mask_and_not_first, ...] += bases[i][mask_and_not_first, ...]
-        for l in range(levels):
+        for level in range(levels):
             cmask = (
-                (reduce_color_dimension(ads[l][i]**2) + reduce_color_dimension(
-                    das[l][i]**2) + reduce_color_dimension(dds[l][i]**2)) >
-                (reduce_color_dimension(ad[l]**2) +
-                 reduce_color_dimension(da[l]**2) +
-                 reduce_color_dimension(dd[l]**2))) & mask_and_not_first
-            ad[l][cmask, ...] = ads[l][i][cmask, ...]
-            da[l][cmask, ...] = das[l][i][cmask, ...]
-            dd[l][cmask, ...] = dds[l][i][cmask, ...]
+                (reduce_color_dimension(ads[level][i]**2) +
+                 reduce_color_dimension(das[level][i]**2) +
+                 reduce_color_dimension(dds[level][i]**2)) >
+                (reduce_color_dimension(ad[level]**2) +
+                 reduce_color_dimension(da[level]**2) +
+                 reduce_color_dimension(dd[level]**2))) & mask_and_not_first
+            ad[level][cmask, ...] = ads[level][i][cmask, ...]
+            da[level][cmask, ...] = das[level][i][cmask, ...]
+            dd[level][cmask, ...] = dds[level][i][cmask, ...]
         first[mask] = False
 
     base /= k
-    coeffs = [base
-              ] + [dict(ad=ad[l], da=da[l], dd=dd[l]) for l in range(levels)]
+    coeffs = [base] + [
+        dict(ad=ad[level], da=da[level], dd=dd[level])
+        for level in range(levels)
+    ]
     return unpad(pywt.iswtn(coeffs, wavelet, axes=(0, 1), norm=True))
