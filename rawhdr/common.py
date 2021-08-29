@@ -31,6 +31,8 @@ def load_image(path):
         rgb = imageio.imread(path)
         if rgb.dtype.kind != 'f':
             raise RuntimeError('only RAW or floating point images are support')
+        if rgb.ndim == 3 and rgb.shape[2] > 3:
+            rgb = rgb[:, :, :3]
         return rgb.astype('float32')
 
 
