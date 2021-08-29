@@ -86,7 +86,7 @@ def exposure_fusion(images, output, save_memory, mask_width, blend_width,
                                                blend_cap=blend_cap,
                                                target_gamma=target_gamma)
 
-    save_image(output)
+    save_image(output, fused)
 
 
 @main.command()
