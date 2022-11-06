@@ -35,8 +35,8 @@ def load_image(path, return_original_dtype=False):
         if rgb.dtype.kind != 'f':
             if rgb.dtype.kind != 'u':
                 raise RuntimeError(
-                    'only RAW, floating point, and unsigned integer images are supported'
-                )
+                    'only RAW, floating point, and unsigned integer images '
+                    'are supported')
             rgb = rgb.astype('float32') / np.float32(np.iinfo(rgb.dtype).max)
         if rgb.ndim == 3 and rgb.shape[2] > 3:
             rgb = rgb[:, :, :3]
@@ -62,8 +62,8 @@ def save_image(path, image, dtype=None):
         if dtype.kind != 'f':
             if dtype.kind != 'u':
                 raise RuntimeError(
-                    'only floating point and unsigned integer images are supported'
-                )
+                    'only floating point and unsigned integer images '
+                    'are supported')
             image = (np.clip(image, 0, 1) * np.iinfo(dtype).max).astype(dtype)
     imageio.imsave(path, image)
 

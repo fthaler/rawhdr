@@ -6,7 +6,8 @@ import click
 import numpy as np
 
 import rawhdr
-from rawhdr.common import load_image, save_image, temporary_array_list, reduce_color_dimension
+from rawhdr.common import (load_image, save_image, temporary_array_list,
+                           reduce_color_dimension)
 
 
 def print_version(ctx, _, value):

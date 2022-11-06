@@ -31,7 +31,7 @@ if match:
     release = match.group(1)
 else:
     raise RuntimeError('Unable to find version string')
-match = re.search('[0-9]+\.[0-9]+', release)
+match = re.search(r'[0-9]+\.[0-9]+', release)
 if match:
     version = match.group()
 else:

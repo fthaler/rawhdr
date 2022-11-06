@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rawhdr"
+authors = [
+    { name="Felix Thaler", email="felix.thaler@nummi.ch" },
+]
+description = "A command-line image fuser for HDR exposure fusion, focus-stacking, etc."
+readme = "README.md"
+requires-python = ">=3.6"
+license = { text = "GNU General Public License v2 or later (GPLv2+)" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
+    "Operating System :: OS Independent",
+    "Topic :: Multimedia :: Graphics :: Graphics Conversion",
+]
+dependencies = [
+    "click",
+    "imageio",
+    "numpy",
+    "PyWavelets",
+    "rawpy",
+    "scipy",
+    "opencv-python",
+    'importlib-metadata; python_version<"3.8"',
+]
+dynamic = ["version"]
+
+[project.scripts]
+rawhdr = "rawhdr.cli:main"
+
+[project.urls]
+"Homepage" = "https://github.com/fthaler/rawhdr"
+"Bug Tracker" = "https://github.com/fthaler/rawhdr/issues"
+
+[tool.setuptools.dynamic]
+version = { attr = "rawhdr.__version__" }

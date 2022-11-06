@@ -1,6 +1,6 @@
 import cv2 as cv
 
-from .common import reduce_color_dimension, temporary_array_list
+from .common import reduce_color_dimension
 
 
 def align(template, image, initial_transform=None, return_matrix=False):

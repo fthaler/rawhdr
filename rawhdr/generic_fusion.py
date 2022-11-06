@@ -2,7 +2,6 @@
 
 import cv2 as cv
 import numpy as np
-from scipy import ndimage
 import pywt
 
 from .common import reduce_color_dimension
@@ -114,7 +113,6 @@ def fuse_stationary_wavelets(first,
 def laplacian_pyramid(img, levels):
     res = []
     level = 0
-    imgid = img.ctypes.data
     while img.shape[0] > 1 and img.shape[1] > 1 and (levels is None
                                                      or level < levels):
         downsampled = cv.pyrDown(img)
