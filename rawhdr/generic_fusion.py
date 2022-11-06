@@ -1,6 +1,8 @@
 """Generic image fusion."""
 
+import cv2 as cv
 import numpy as np
+from scipy import ndimage
 import pywt
 
 from .common import reduce_color_dimension
@@ -107,3 +109,37 @@ def fuse_stationary_wavelets(first,
     if not clip:
         return fused
     return np.clip(fused, np.minimum(first, second), np.maximum(first, second))
+
+
+def laplacian_pyramid(img, levels):
+    res = []
+    level = 0
+    imgid = img.ctypes.data
+    while img.shape[0] > 1 and img.shape[1] > 1 and (levels is None
+                                                     or level < levels):
+        downsampled = cv.pyrDown(img)
+        res.append(img - cv.pyrUp(downsampled, dstsize=img.shape[:2][::-1]))
+        img = downsampled
+        level += 1
+    res.append(img)
+    return res
+
+
+def laplacian_unpyramid(p):
+    res = p[-1]
+    for diff in p[-2::-1]:
+        res = cv.pyrUp(res, dstsize=diff.shape[:2][::-1]) + diff
+    return res
+
+
+def fuse_laplacian_pyramids(first, second, *, pca=False):
+    first[-1] = 0.5 * (first[-1] + second[-1])
+    for first_c, second_c in zip(first[:-1], second[:-1]):
+        first_bw = reduce_color_dimension(first_c, pca)
+        second_bw = reduce_color_dimension(second_c, pca)
+        w = 5
+        first_dev = cv.GaussianBlur(first_bw**2, (w, w), 0)
+        second_dev = cv.GaussianBlur(second_bw**2, (w, w), 0)
+        mask = second_dev > first_dev
+        first_c[mask, ...] = second_c[mask, ...]
+    return first

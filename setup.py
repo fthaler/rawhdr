@@ -38,7 +38,7 @@ setuptools.setup(name='rawhdr',
                  entry_points={'console_scripts': ['rawhdr=rawhdr.cli:main']},
                  install_requires=[
                      'click', 'imageio', 'numpy', 'PyWavelets', 'rawpy',
-                     'scipy'
+                     'scipy', 'opencv-python'
                  ],
                  classifiers=[
                      'Programming Language :: Python',

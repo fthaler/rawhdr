@@ -3,9 +3,10 @@
 import os
 
 import click
+import numpy as np
 
 import rawhdr
-from rawhdr.common import load_image, save_image, temporary_array_list
+from rawhdr.common import load_image, save_image, temporary_array_list, reduce_color_dimension
 
 
 def print_version(ctx, _, value):
@@ -123,6 +124,57 @@ def wavelet_fusion(images, output, wavelet_levels, pca, stationary, clip):
                           pca=pca,
                           clip=clip)
         del image
+
+    save_image(output, fused)
+
+
+@main.command()
+@click.argument('images', nargs=-1, type=click.Path(exists=True))
+@click.option('--output',
+              '-o',
+              type=click.Path(),
+              help='File name of the output image.')
+@click.option('--levels', '-l', type=int)
+@click.option('--pca/--no-pca', default=False)
+@click.option('--clip/--dont-clip', '-c', default=False)
+def pyramid_fusion(images, output, levels, pca, clip):
+    if not images:
+        return
+
+    if output is None:
+        output = os.path.splitext(images[0])[0] + '-fused.exr'
+
+    from rawhdr import generic_fusion
+
+    image = load_image(images[0])
+    fused = generic_fusion.laplacian_pyramid(image, levels)
+    if clip:
+        image_min = np.copy(image)
+        image_max = np.copy(image)
+    del image
+    for image in images[1:]:
+        image = load_image(image)
+        if clip:
+            image_bw = reduce_color_dimension(image, pca)
+            mask = image_bw < reduce_color_dimension(image_min, pca)
+            image_min[mask, ...] = image[mask, ...]
+            mask = image_bw > reduce_color_dimension(image_max, pca)
+            image_max[mask, ...] = image[mask, ...]
+            del image_bw
+            del mask
+        image = generic_fusion.laplacian_pyramid(image, levels)
+        fused = generic_fusion.fuse_laplacian_pyramids(fused, image, pca=pca)
+        del image
+
+    fused = generic_fusion.laplacian_unpyramid(fused)
+    if clip:
+        fused_bw = reduce_color_dimension(fused, pca)
+        mask = fused_bw < reduce_color_dimension(image_min, pca)
+        fused[mask, ...] = image_min[mask, ...]
+        mask = fused_bw > reduce_color_dimension(image_max, pca)
+        fused[mask, ...] = image_max[mask, ...]
+        del fused_bw
+        del mask
 
     save_image(output, fused)
 
