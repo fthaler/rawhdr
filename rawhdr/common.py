@@ -46,7 +46,7 @@ def principal_component(image):
 
     mu = np.mean(image, axis=(0, 1), keepdims=True)
     b = np.reshape(image - mu, (-1, image.shape[2]))
-    cov = (b.T @ b) / (b.shape[0] - 1)
+    cov = (b.T @ b) / image.dtype.type(b.shape[0] - 1)
     w, v = np.linalg.eig(cov)
     i = np.argmax(w)
     return np.reshape(b @ v[:, i], image.shape[:2])
