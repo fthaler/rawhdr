@@ -234,5 +234,30 @@ def focus_fusion(images, output, pca, in_memory, sharpness_sigma,
     save_image(output, fused)
 
 
+@main.command()
+@click.argument('images', nargs=-1, type=click.Path(exists=True))
+@click.option('--output',
+              '-o',
+              type=click.Path(),
+              help='File name pattern of the output images.')
+def alignment(images, output):
+    if not images:
+        return
+
+    if output is None:
+        output = os.path.splitext(images[0])[0] + '-aligned-{:05}.exr'
+
+    from rawhdr import alignment
+
+    template = load_image(images[0])
+    save_image(output.format(0), template)
+    mat = np.eye(2, 3, dtype=np.float32)
+    for i, image in enumerate(images[1:], 1):
+        image = load_image(image)
+        image, mat = alignment.align(template, image, mat, True)
+        save_image(output.format(i), image)
+        template = image
+
+
 if __name__ == '__main__':
     main()
