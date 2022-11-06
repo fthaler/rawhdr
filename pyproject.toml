@@ -9,7 +9,7 @@ authors = [
 ]
 description = "A command-line image fuser for HDR exposure fusion, focus-stacking, etc."
 readme = "README.md"
-requires-python = ">=3.6"
+requires-python = ">=3.7"
 license = { text = "GNU General Public License v2 or later (GPLv2+)" }
 classifiers = [
     "Programming Language :: Python :: 3",
