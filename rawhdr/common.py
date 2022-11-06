@@ -1,12 +1,13 @@
 import pathlib
 import tempfile
+import warnings
 
 import imageio
 import numpy as np
 import rawpy
 
 
-def load_image(path):
+def load_image(path, return_original_dtype=False):
     """Load a raw image file.
 
     Parameters
@@ -26,17 +27,44 @@ def load_image(path):
                                   no_auto_bright=True,
                                   use_camera_wb=True,
                                   output_bps=16)
-        return rgb.astype('float32') / np.float32(2**16)
-    except rawpy._rawpy.LibRawNonFatalError:
+        rgb = rgb.astype('float32') / np.float32(2**16)
+        dtype = rgb.dtype
+    except rawpy._rawpy.LibRawError:
         rgb = imageio.imread(path)
+        dtype = rgb.dtype
         if rgb.dtype.kind != 'f':
-            raise RuntimeError('only RAW or floating point images are support')
+            if rgb.dtype.kind != 'u':
+                raise RuntimeError(
+                    'only RAW, floating point, and unsigned integer images are supported'
+                )
+            rgb = rgb.astype('float32') / np.float32(np.iinfo(rgb.dtype).max)
         if rgb.ndim == 3 and rgb.shape[2] > 3:
             rgb = rgb[:, :, :3]
-        return rgb.astype('float32')
+    mask = np.isnan(rgb)
+    if np.any(mask):
+        warnings.warn(
+            f"fixed {np.count_nonzero(mask)} NaN values in image {path}")
+        rgb[mask] = 0
+
+    if return_original_dtype:
+        return rgb, dtype
+    return rgb
 
 
-def save_image(path, image):
+def save_image(path, image, dtype=None):
+    if dtype is None:
+        path_str = str(path).lower()
+        if path_str.endswith('.jpg') or path_str.endswith('.jpeg'):
+            dtype = np.dtype('uint8')
+        elif path_str.endswith('.png'):
+            dtype = np.dtype('uint16')
+    if dtype is not None:
+        if dtype.kind != 'f':
+            if dtype.kind != 'u':
+                raise RuntimeError(
+                    'only floating point and unsigned integer images are supported'
+                )
+            image = (np.clip(image, 0, 1) * np.iinfo(dtype).max).astype(dtype)
     imageio.imsave(path, image)
 
 
