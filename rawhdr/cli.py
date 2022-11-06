@@ -99,7 +99,7 @@ def exposure_fusion(images, output, save_memory, mask_width, blend_width,
 @click.option('--pca/--no-pca', default=True)
 @click.option('--stationary/--not-stationary', '-s', default=False)
 @click.option('--clip/--dont-clip', '-c', default=False)
-def generic_fusion(images, output, wavelet_levels, pca, stationary, clip):
+def wavelet_fusion(images, output, wavelet_levels, pca, stationary, clip):
     if not images:
         return
 
