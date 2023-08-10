@@ -27,7 +27,7 @@ def load_image(path, return_original_dtype=False):
                                   no_auto_bright=True,
                                   use_camera_wb=True,
                                   output_bps=16)
-        rgb = rgb.astype('float32') / np.float32(2**16)
+        rgb = rgb.astype('float32') / np.float32(2**16 - 1)
         dtype = rgb.dtype
     except rawpy._rawpy.LibRawError:
         rgb = imageio.imread(path)
